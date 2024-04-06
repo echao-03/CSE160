@@ -118,6 +118,8 @@ function handleDrawOperationEvent() {
     else if (selectedValue == "mag") {
         magVal1 = v1.magnitude();
         magVal2 = v2.magnitude();
+        console.log(magVal1);
+        console.log(magVal2);
     }
 
     else if (selectedValue == "norm") {
