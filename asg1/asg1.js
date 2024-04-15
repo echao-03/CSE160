@@ -86,6 +86,8 @@ let g_selectSize = 10;
 let g_selectedType = POINT;
 let c_segments = 5;
 var g_shapesList = [];
+var randomButton = false;
+var randValue = 1000;
 
 // Seperate function for Clear button to use
 function clearShapes() {
@@ -112,7 +114,6 @@ function addActionsForHtmlUI() {
     document.getElementById('blueSlider').addEventListener('mouseup', function () { g_selectedColor[2] = this.value / 100; });
     document.getElementById('sizeSlider').addEventListener('mouseup', function () { g_selectSize = this.value; });
     document.getElementById('segmentSlider').addEventListener('mouseup', function () { c_segments = this.value; });
-
 
 }
 
@@ -159,13 +160,66 @@ function renderDrawing() {
     let pointList = [[0.3, 0.1], [0.5, 0.2]];
 
     for (let i = 0; i < pointList.length; i++) {
-        let point = new Point()
+        let point = new Triangle()
         point.position = pointList[i];
         point.color = g_selectedColor.slice();
         point.size = g_selectSize;
         g_shapesList.push(point);
         renderAllShapes();
     }
+}
+var interval;
+function randomControl() {
+    interval = setInterval(randomDraw, 1000);
+
+}
+
+function stopRandom() {
+    clearInterval(interval);
+}
+
+
+function randomDraw() {
+    let shapeChange = [POINT, CIRCLE, TRIANGLE];
+
+    let shapeSelect = shapeChange[(Math.floor(Math.random() * shapeChange.length))];
+    let point;
+    let negPos = Math.random();
+    let negPos1 = Math.random()
+    if (negPos < 0.5) {
+        negPos *= -1;
+    }
+    if (negPos1 < 0.5) {
+        negPos1 *= -1;
+    }
+    if (shapeSelect == POINT) {
+        point = new Point()
+        point.position = [negPos, negPos1];
+        point.color = [Math.random(), Math.random(), Math.random(), 1.0];
+        point.size = Math.random() * 50;
+        g_shapesList.push(point);
+        renderAllShapes();
+    }
+
+    else if (shapeSelect == CIRCLE) {
+        point = new Circle()
+        point.position = [negPos, negPos1];
+        point.color = [Math.random(), Math.random(), Math.random(), 1.0];
+        point.size = Math.random() * 50;
+        g_shapesList.push(point);
+        renderAllShapes();
+    }
+
+    else if (shapeSelect == TRIANGLE) {
+        point = new Triangle()
+        point.position = [negPos, negPos1];
+        point.color = [Math.random(), Math.random(), Math.random(), 1.0];
+        point.size = Math.random() * 50;
+        g_shapesList.push(point);
+        renderAllShapes();
+    }
+
+
 }
 
 function main() {

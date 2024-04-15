@@ -39,7 +39,6 @@ function drawTriangle(vertices) {
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
     // Write date into the buffer object
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.DYNAMIC_DRAW);
-
     //  var a_Position = gl.getAttribLocation(gl.program, 'a_Position');
     //  if (a_Position < 0) {
     //      console.log('Failed to get the storage location of a_Position');
