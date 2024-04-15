@@ -1,0 +1,42 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Draw a point (1)</title>
+
+</head>
+
+<body onload="main()">
+    <canvas id="webgl" width="400" height="400">
+        Please use a browser that supports "canvas"
+    </canvas>
+    <br>
+    <br>
+    <button onclick="clearShapes()">Clear Canvas</button>
+    <br>
+    <h2>Drawing Mode:</h2>
+    <button onclick="changePoint()">Point</button>
+    <button onclick="changeTriangle()">Triangle</button>
+    <button onclick="changeCircle()">Circle</button>
+    <br>
+    <br>
+    Red <input type="range" min="0" max="100" value="100" class="slider" id="redSlider">
+    Green <input type="range" min="0" max="100" value="0" class="slider" id="greenSlider">
+    Blue <input type="range" min="0" max="100" value="0" class="slider" id="blueSlider">
+    <br>
+    <br>
+    Size <input type="range" min="5" max="50" value="10" class="slider" id="sizeSlider">
+    (Circles) Segment Count: <input type="range" min="5" max="50" value="10" class="slider" id="segmentSlider">
+    <br>
+    <button onclick="renderDrawing()">Render Drawing</button>
+    <script src="lib/cuon-utils.js"></script>
+    <script src="lib/webgl-debug.js"></script>
+    <script src="lib/webgl-utils.js"></script>
+    <script src="Point.js"></script>
+    <script src="HelloPoint1.js"></script>
+    <script src="Triangle.js"></script>
+    <script src="Circle.js"></script>
+
+</body>
+
+</html>
