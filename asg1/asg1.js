@@ -81,7 +81,7 @@ function convertCoordinatesEventToGL(ev) {
 const POINT = 0;
 const TRIANGLE = 1;
 const CIRCLE = 2;
-let g_selectedColor = [1.0, 1.0, 1.0, 1.0];
+let g_selectedColor = [1.0, 0.0, 0.0, 1.0];
 let g_selectSize = 10;
 let g_selectedType = POINT;
 let c_segments = 5;
