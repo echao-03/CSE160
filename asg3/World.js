@@ -217,10 +217,10 @@ function initTextures() {
     }
     // Register the event handler to be called on loading an image
     image1.onload = function () { sendImageToTEXTURE0(image1); };
-    image1.src = '/img/sky_1.jpg';
+    image1.src = 'img/sky_1.jpg';
 
     image2.onload = function () { sendImageToTEXTURE1(image2); };
-    image2.src = '/img/grass.jpg';
+    image2.src = 'img/grass.jpg';
 
     // add more textures loading
     return true;
