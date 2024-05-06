@@ -1,0 +1,40 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Assignment 2: Blocky Animals</title>
+
+</head>
+
+<body onload="main()">
+    <canvas id="webgl" width="500" height="500">
+        Please use a browser that supports "canvas"
+    </canvas>
+    <p id="fps"></p>
+
+    <h2>Actions:</h2>
+    Leg Joints <input type="range" min="-100" max="100" value="0" class="slider" id="legJoint">
+    Camera Angle <input type="range" min="-360" max="360" value="0" class="slider" id="angleSlide">
+    <br>
+    Animation:
+    <button onclick="switchAnimationOn()">On</button>
+    <button onclick="switchAnimationOff()">Off</button>
+    <br>
+    Alt Idle Stance:
+    <button onclick="switchAltStanceSit()">Sit</button>
+    <button onclick="switchAltStanceStand()">Stand</button>
+
+    <script src="lib/cuon-matrix.js"></script>
+    <script src="lib/cuon-utils.js"></script>
+    <script src="lib/webgl-debug.js"></script>
+    <script src="lib/webgl-utils.js"></script>
+    <script src="Point.js"></script>
+    <script src="Cube.js"></script>
+    <script src="World.js"></script>
+    <script src="Triangle.js"></script>
+    <script src="Circle.js"></script>
+    <script src="Cone.js"></script>
+
+</body>
+
+</html>
