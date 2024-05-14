@@ -49,7 +49,7 @@ class Vector3 {
         this.elements[0] += +other.elements[0];
         this.elements[1] += +other.elements[1];
         this.elements[2] += +other.elements[2];
-        console.log(this.elements[0], this.elements[1]);
+        // console.log(this.elements[0], this.elements[1]);
         // Don't delete the return statement.
         return this;
     };

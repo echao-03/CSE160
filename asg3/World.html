@@ -2,7 +2,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Assignment 2: Blocky Animals</title>
+    <title>Assignment 3: Creating a Virtual World</title>
 
 </head>
 
@@ -12,9 +12,8 @@
     </canvas>
     <p id="fps"></p>
 
-    <h2>Actions:</h2>
-    Leg Joints <input type="range" min="-100" max="100" value="0" class="slider" id="legJoint">
-    Camera Angle <input type="range" min="-360" max="360" value="0" class="slider" id="angleSlide">
+    <h2>Goal:</h2>
+    Find the rainbow cat in the maze!
     <br>
     Animation:
     <button onclick="switchAnimationOn()">On</button>
@@ -23,12 +22,32 @@
     Alt Idle Stance:
     <button onclick="switchAltStanceSit()">Sit</button>
     <button onclick="switchAltStanceStand()">Stand</button>
+    <br>
+    <br>
+    <h2>Movement Controls:</h2>
+    W - Forward
+    <br>
+    S - Backward
+    <br>
+    A - Left
+    <br>
+    D - Right
+    <br>
+    <h2>Camera Controls:</h2>
+    Q - Pan Left
+    <br>
+    E - Pan Right
+    <br>
+    R - Pan Up
+    <br>
+    F - Pan Left
 
     <script src="lib/cuon-matrix.js"></script>
     <script src="lib/cuon-utils.js"></script>
     <script src="lib/webgl-debug.js"></script>
     <script src="lib/webgl-utils.js"></script>
     <script src="Point.js"></script>
+    <script src="Camera.js"></script>
     <script src="Cube.js"></script>
     <script src="World.js"></script>
     <script src="Triangle.js"></script>
