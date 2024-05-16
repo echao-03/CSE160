@@ -24,7 +24,7 @@ const geometry = new THREE.BoxGeometry(1, 1, 1);
 const planeSize = 40;
 
 const flat = new THREE.TextureLoader();
-const texture = flat.load('imgs/checker.png');
+const texture = flat.load('imgs/green_grass.jpg');
 texture.wrapS = THREE.RepeatWrapping;
 texture.wrapT = THREE.RepeatWrapping;
 texture.magFilter = THREE.NearestFilter;
@@ -46,12 +46,12 @@ scene.add(mesh);
 
 
 const color = 0xFFFFFF;
-const intensity = 3;
+const intensity = 2;
 const light = new THREE.DirectionalLight(color, intensity);
-// const helper = new THREE.DirectionalLightHelper(light, 5);
+const helper = new THREE.DirectionalLightHelper(light, 5);
 light.position.set(17, 14, -10);
 scene.add(light);
-// scene.add(helper);
+scene.add(helper);
 
 
 
