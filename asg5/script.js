@@ -18,18 +18,18 @@ controls.update();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-const geometry = new THREE.BoxGeometry(1, 1, 1);
+
 
 // Creating textured ground
 const planeSize = 40;
 
 const flat = new THREE.TextureLoader();
-const texture = flat.load('imgs/green_grass.jpg');
+const texture = flat.load('imgs/cement.jpg');
 texture.wrapS = THREE.RepeatWrapping;
 texture.wrapT = THREE.RepeatWrapping;
 texture.magFilter = THREE.NearestFilter;
 texture.colorSpace = THREE.SRGBColorSpace;
-const repeats = planeSize / 2;
+const repeats = planeSize / 16;
 texture.repeat.set(repeats, repeats);
 
 
@@ -46,7 +46,7 @@ scene.add(mesh);
 
 
 const color = 0xFFFFFF;
-const intensity = 2;
+const intensity = 0.2;
 const light = new THREE.DirectionalLight(color, intensity);
 const helper = new THREE.DirectionalLightHelper(light, 5);
 light.position.set(17, 14, -10);
@@ -59,7 +59,7 @@ const loader = new THREE.TextureLoader();
 
 const bg_loader = new THREE.TextureLoader();
 const bg_texture = loader.load(
-    'imgs/eq_background.jpg',
+    'imgs/star_bg.jpg',
     () => {
         bg_texture.mapping = THREE.EquirectangularReflectionMapping;
         bg_texture.colorSpace = THREE.SRGBColorSpace;
@@ -76,9 +76,55 @@ const materials = [
 
 
 ];
-const dice = new THREE.Mesh(geometry, materials);
+
+const cubeWidth = 1;
+const cubeHeight = 1;
+const cubeDepth = 1;
+
+
+const cubeGeometry = new THREE.BoxGeometry(cubeWidth, cubeHeight, cubeDepth);
+const dice = new THREE.Mesh(cubeGeometry, materials);
 dice.position.x = -1
 scene.add(dice);
+
+
+const streetMainGeometry = new THREE.BoxGeometry(3, 0.5, 40);
+const streetMainMaterial = new THREE.MeshBasicMaterial({ color: 0x222423 });
+const streetMain = new THREE.Mesh(streetMainGeometry, streetMainMaterial);
+streetMain.position.y = -1;
+scene.add(streetMain);
+
+const streetSideGemoetry1 = new THREE.BoxGeometry(1.3, 0.5, 40);
+const streetSideMaterial1 = new THREE.MeshPhongMaterial({ map: loadColorTexture('imgs/cement_2.jpg') });
+const streetSide1 = new THREE.Mesh(streetSideGemoetry1, streetSideMaterial1);
+streetSide1.position.y = -0.8;
+streetSide1.position.x = -2;
+scene.add(streetSide1);
+
+
+const streetSideGemoetry2 = new THREE.BoxGeometry(1.3, 0.5, 40);
+const streetSideMaterial2 = new THREE.MeshPhongMaterial({ map: loadColorTexture('imgs/cement_2.jpg') });
+const streetSide2 = new THREE.Mesh(streetSideGemoetry2, streetSideMaterial2);
+streetSide2.position.y = -0.8;
+streetSide2.position.x = 2;
+scene.add(streetSide2);
+
+const woodStepGeometry1 = new THREE.BoxGeometry(0.4, 0.2, 1);
+const woodStepMaterial1 = new THREE.MeshPhongMaterial({ map: loadColorTexture('imgs/wood_1.jpg') });
+const woodStep1 = new THREE.Mesh(woodStepGeometry1, woodStepMaterial1);
+woodStep1.position.y = -1;
+woodStep1.position.x = 5;
+woodStep1.position.z = -1.4;
+scene.add(woodStep1);
+
+const woodStepGeometry2 = new THREE.BoxGeometry(0.4, 0.2, 1);
+const woodStepMaterial2 = new THREE.MeshPhongMaterial({ map: loadColorTexture('imgs/wood_1.jpg') });
+const woodStep2 = new THREE.Mesh(woodStepGeometry2, woodStepMaterial2);
+woodStep2.position.y = -1;
+woodStep2.position.x = 4;
+woodStep2.position.z = -1.4;
+scene.add(woodStep2);
+
 
 
 function loadColorTexture(path) {
@@ -87,22 +133,13 @@ function loadColorTexture(path) {
     return texture;
 }
 
-function makeInstance(geometry, color, x) {
-    const material = new THREE.MeshPhongMaterial({ color });
 
-    const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
 
-    cube.position.x = x;
-    cube.position.z = -1.5;
-
-    return cube;
-}
-
-const cubes = [
-];
+const cubes = [];
 
 cubes.push(dice);
+
+
 const mtlLoader = new MTLLoader();
 mtlLoader.load('models/materials.mtl', (mtl) => {
 
@@ -131,7 +168,134 @@ mtlLoader_2.load('models/bottleKetchup.mtl', (mtl) => {
     });
 
 });
+
+const mtlLoader_3 = new MTLLoader();
+mtlLoader_3.load('models/street_lamp.mtl', (mtl) => {
+
+    mtl.preload();
+    const objLoader = new OBJLoader();
+    objLoader.setMaterials(mtl);
+    objLoader.load('models/street_lamp.obj', (root) => {
+        root.translateZ(-3);
+        root.translateY(0.65);
+        root.translateX(-1.5);
+        scene.add(root);
+        scene.updateMatrixWorld(true);
+        lamps.push(root);
+        var position = new THREE.Vector3();
+        position.setFromMatrixPosition(root.matrixWorld);
+
+        const light = new THREE.PointLight(0xd6be87, 0.8);
+        const helper = new THREE.PointLightHelper(light, 1);
+        light.position.set(-1, 2, -3);
+        scene.add(light);
+        scene.add(helper);
+    });
+
+});
+
+const mtlLoader_4 = new MTLLoader();
+mtlLoader_4.load('models/street_lamp.mtl', (mtl) => {
+
+    mtl.preload();
+    const objLoader = new OBJLoader();
+    objLoader.setMaterials(mtl);
+    objLoader.load('models/street_lamp.obj', (root) => {
+        root.translateZ(8);
+        root.translateY(0.65);
+        root.translateX(1.5);
+        root.rotateY(2.9);
+        scene.add(root);
+        scene.updateMatrixWorld(true);
+        lamps.push(root);
+        var position = new THREE.Vector3();
+        position.setFromMatrixPosition(root.matrixWorld);
+        console.log(root.position);
+        const light = new THREE.PointLight(0xd6be87, 0.8);
+        const helper = new THREE.PointLightHelper(light, 1);
+        light.position.set(root.position.x - .5, root.position.y + 1.35, root.position.z);
+        scene.add(light);
+        scene.add(helper);
+    });
+
+});
+
+const mtlLoader_5 = new MTLLoader();
+mtlLoader_5.load('models/house_1.mtl', (mtl) => {
+
+    mtl.preload();
+    const objLoader = new OBJLoader();
+    objLoader.setMaterials(mtl);
+    objLoader.load('models/house_1.obj', (root) => {
+        root.translateZ(-1);
+        root.translateX(8);
+        root.translateY(2.4);
+        root.rotateY(1.55);
+        root.scale.set(6, 6, 6);
+        scene.add(root);
+    });
+
+});
+
+const mtlLoader_6 = new MTLLoader();
+mtlLoader_6.load('models/bush_1.mtl', (mtl) => {
+
+    mtl.preload();
+    const objLoader = new OBJLoader();
+    objLoader.setMaterials(mtl);
+    objLoader.load('models/bush_1.obj', (root) => {
+        root.translateZ(1);
+        root.translateX(4.5);
+        root.translateY(-0.8);
+        root.rotateY(1.55);
+        root.scale.set(12, 12, 12);
+        scene.add(root);
+    });
+
+});
+
+const mtlLoader_7 = new MTLLoader();
+mtlLoader_7.load('models/bush_1.mtl', (mtl) => {
+
+    mtl.preload();
+    const objLoader = new OBJLoader();
+    objLoader.setMaterials(mtl);
+    objLoader.load('models/bush_1.obj', (root) => {
+        root.translateZ(-4);
+        root.translateX(4.5);
+        root.translateY(-0.8);
+        root.rotateY(1.55);
+        root.scale.set(12, 12, 12);
+        scene.add(root);
+    });
+
+});
+
+const mtlLoader_8 = new MTLLoader();
+mtlLoader_8.load('models/tree_1.mtl', (mtl) => {
+
+    mtl.preload();
+    const objLoader = new OBJLoader();
+    objLoader.setMaterials(mtl);
+    objLoader.load('models/tree_1.obj', (root) => {
+        root.translateZ(-8);
+        root.translateX(4.5);
+        root.translateY(3);
+        root.rotateY(1.55);
+        root.scale.set(4, 4, 4);
+        scene.add(root);
+    });
+
+});
+
+
+
+
+
 const objects = [];
+const lamps = [];
+
+
 
 function objRender(time) {
     time *= 0.001; // convert time to seconds
