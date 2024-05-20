@@ -125,6 +125,27 @@ woodStep2.position.x = 4;
 woodStep2.position.z = -1.4;
 scene.add(woodStep2);
 
+const rainCount = 2000;
+const rain_pos = [];
+
+
+const rainMaterial = new THREE.PointsMaterial({
+    color: 0xaaaaaa,
+    size: 0.1,
+    transparent: true,
+});
+
+for (let i = 0; i < rainCount; i++) {
+    const rainGeometry = new THREE.BufferGeometry();
+    rainGeometry.setAttribute('position', new THREE.Float32BufferAttribute(rain_pos, 3));
+
+    const rain = new THREE.Points(rainGeometry, rainMaterial);
+    scene.add(rain);
+    rain_pos.push();
+}
+
+
+
 
 
 function loadColorTexture(path) {
@@ -181,7 +202,6 @@ mtlLoader_3.load('models/street_lamp.mtl', (mtl) => {
         root.translateX(-1.5);
         scene.add(root);
         scene.updateMatrixWorld(true);
-        lamps.push(root);
         var position = new THREE.Vector3();
         position.setFromMatrixPosition(root.matrixWorld);
 
@@ -207,7 +227,6 @@ mtlLoader_4.load('models/street_lamp.mtl', (mtl) => {
         root.rotateY(2.9);
         scene.add(root);
         scene.updateMatrixWorld(true);
-        lamps.push(root);
         var position = new THREE.Vector3();
         position.setFromMatrixPosition(root.matrixWorld);
         console.log(root.position);
@@ -288,14 +307,7 @@ mtlLoader_8.load('models/tree_1.mtl', (mtl) => {
 
 });
 
-
-
-
-
 const objects = [];
-const lamps = [];
-
-
 
 function objRender(time) {
     time *= 0.001; // convert time to seconds
@@ -329,7 +341,18 @@ function render(time) {
     controls.update();
     renderer.render(scene, camera);
 
+    for (let i = 0; i < rain_pos.length; i += 3) {
+        positions[i + 1] -= 0.1;  // y position
+
+        // Reset position if below threshold
+        if (positions[i + 1] < -250) {
+            positions[i + 1] = 250;
+        }
+
+    }
     requestAnimationFrame(render);
+
+
 
 }
 requestAnimationFrame(objRender);
