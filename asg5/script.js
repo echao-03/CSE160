@@ -24,7 +24,7 @@ document.body.appendChild(renderer.domElement);
 const planeSize = 40;
 
 const flat = new THREE.TextureLoader();
-const texture = flat.load('imgs/cement.jpg');
+const texture = flat.load('imgs/green_grass.jpg');
 texture.wrapS = THREE.RepeatWrapping;
 texture.wrapT = THREE.RepeatWrapping;
 texture.magFilter = THREE.NearestFilter;
@@ -125,6 +125,22 @@ woodStep2.position.x = 4;
 woodStep2.position.z = -1.4;
 scene.add(woodStep2);
 
+const woodStepGeometry3 = new THREE.BoxGeometry(0.4, 0.2, 1);
+const woodStepMaterial3 = new THREE.MeshPhongMaterial({ map: loadColorTexture('imgs/wood_1.jpg') });
+const woodStep3 = new THREE.Mesh(woodStepGeometry3, woodStepMaterial3);
+woodStep3.position.y = -1;
+woodStep3.position.x = -5;
+woodStep3.position.z = -0.6;
+scene.add(woodStep3);
+
+const woodStepGeometry4 = new THREE.BoxGeometry(0.4, 0.2, 1);
+const woodStepMaterial4 = new THREE.MeshPhongMaterial({ map: loadColorTexture('imgs/wood_1.jpg') });
+const woodStep4 = new THREE.Mesh(woodStepGeometry4, woodStepMaterial4);
+woodStep4.position.y = -1;
+woodStep4.position.x = -4;
+woodStep4.position.z = -0.6;
+scene.add(woodStep4);
+
 const rainCount = 2000;
 const rain_pos = [];
 
@@ -205,7 +221,7 @@ mtlLoader_3.load('models/street_lamp.mtl', (mtl) => {
         var position = new THREE.Vector3();
         position.setFromMatrixPosition(root.matrixWorld);
 
-        const light = new THREE.PointLight(0xd6be87, 0.8);
+        const light = new THREE.PointLight(0xd6be87, 0.5);
         const helper = new THREE.PointLightHelper(light, 1);
         light.position.set(-1, 2, -3);
         scene.add(light);
@@ -230,7 +246,7 @@ mtlLoader_4.load('models/street_lamp.mtl', (mtl) => {
         var position = new THREE.Vector3();
         position.setFromMatrixPosition(root.matrixWorld);
         console.log(root.position);
-        const light = new THREE.PointLight(0xd6be87, 0.8);
+        const light = new THREE.PointLight(0xd6be87, 0.5);
         const helper = new THREE.PointLightHelper(light, 1);
         light.position.set(root.position.x - .5, root.position.y + 1.35, root.position.z);
         scene.add(light);
@@ -306,6 +322,75 @@ mtlLoader_8.load('models/tree_1.mtl', (mtl) => {
     });
 
 });
+
+const mtlLoader_9 = new MTLLoader();
+mtlLoader_9.load('models/house_1.mtl', (mtl) => {
+
+    mtl.preload();
+    const objLoader = new OBJLoader();
+    objLoader.setMaterials(mtl);
+    objLoader.load('models/house_1.obj', (root) => {
+        root.translateZ(-1);
+        root.translateX(-8);
+        root.translateY(2.4);
+        root.rotateY(4.7);
+        root.scale.set(6, 6, 6);
+        scene.add(root);
+    });
+
+});
+
+const mtlLoader_10 = new MTLLoader();
+mtlLoader_10.load('models/tree_1.mtl', (mtl) => {
+
+    mtl.preload();
+    const objLoader = new OBJLoader();
+    objLoader.setMaterials(mtl);
+    objLoader.load('models/tree_1.obj', (root) => {
+        root.translateZ(8);
+        root.translateX(-4.5);
+        root.translateY(3);
+        root.rotateY(1.55);
+        root.scale.set(4, 4, 4);
+        scene.add(root);
+    });
+
+});
+
+const mtlLoader_11 = new MTLLoader();
+mtlLoader_11.load('models/bush_1.mtl', (mtl) => {
+
+    mtl.preload();
+    const objLoader = new OBJLoader();
+    objLoader.setMaterials(mtl);
+    objLoader.load('models/bush_1.obj', (root) => {
+        root.translateZ(-3.2);
+        root.translateX(-4.5);
+        root.translateY(-0.8);
+        root.rotateY(1.55);
+        root.scale.set(12, 12, 12);
+        scene.add(root);
+    });
+
+});
+
+const mtlLoader_12 = new MTLLoader();
+mtlLoader_12.load('models/bush_1.mtl', (mtl) => {
+
+    mtl.preload();
+    const objLoader = new OBJLoader();
+    objLoader.setMaterials(mtl);
+    objLoader.load('models/bush_1.obj', (root) => {
+        root.translateZ(2);
+        root.translateX(-4.5);
+        root.translateY(-0.8);
+        root.rotateY(6);
+        root.scale.set(12, 12, 12);
+        scene.add(root);
+    });
+
+});
+
 
 const objects = [];
 
