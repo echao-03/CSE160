@@ -1,0 +1,61 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Assignment 4: Lighting</title>
+
+</head>
+
+<body onload="main()">
+    <canvas id="webgl" width="500" height="500">
+        Please use a browser that supports "canvas"
+    </canvas>
+    <p id="fps"></p>
+
+    <br>
+    <button onclick="normalOn()">Normal On</button>
+    <button onclick="normalOff()">Normal Off</button>
+    <p>
+        Light X <input type="range" min="-250" max="250" value="0" class="slider" id="lightSlideX">
+        Light Y <input type="range" min="-250" max="250" value="0" class="slider" id="lightSlideY">
+        Light Z <input type="range" min="-250" max="250" value="0" class="slider" id="lightSlideZ">
+    </p>
+    <p>
+        Toggle Light <button onclick="lightToggle()">Toggle</button>
+        <br>
+        Toggle Light Movement <button onclick="animationToggle()">Toggle</button>
+    </p>
+    <h2>Movement Controls:</h2>
+    W - Forward
+    <br>
+    S - Backward
+    <br>
+    A - Left
+    <br>
+    D - Right
+    <br>
+    <h2>Camera Controls:</h2>
+    Q - Pan Left
+    <br>
+    E - Pan Right
+    <br>
+    R - Pan Up
+    <br>
+    F - Pan Left
+
+    <script src="lib/cuon-matrix.js"></script>
+    <script src="lib/cuon-utils.js"></script>
+    <script src="lib/webgl-debug.js"></script>
+    <script src="lib/webgl-utils.js"></script>
+    <script src="Point.js"></script>
+    <script src="Camera.js"></script>
+    <script src="Cube.js"></script>
+    <script src="World.js"></script>
+    <script src="Triangle.js"></script>
+    <script src="Circle.js"></script>
+    <script src="Cone.js"></script>
+    <script src="Sphere.js"></script>
+
+</body>
+
+</html>
