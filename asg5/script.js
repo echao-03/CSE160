@@ -141,23 +141,32 @@ woodStep4.position.x = -4;
 woodStep4.position.z = -0.6;
 scene.add(woodStep4);
 
-const rainCount = 2000;
+const rainCount = 1000;
 const rain_pos = [];
 
 
 const rainMaterial = new THREE.PointsMaterial({
-    color: 0xaaaaaa,
+    color: 0x233c59,
     size: 0.1,
     transparent: true,
 });
 
 for (let i = 0; i < rainCount; i++) {
-    const rainGeometry = new THREE.BufferGeometry();
-    rainGeometry.setAttribute('position', new THREE.Float32BufferAttribute(rain_pos, 3));
+    const rainGeometry = new THREE.BoxGeometry(0.05, 0.3, 0.05);
+    let rainMain = new THREE.Mesh(rainGeometry, rainMaterial);
+    let plusOrMinus1 = Math.random() < 0.5 ? -1 : 1;
+    let plusOrMinus2 = Math.random() < 0.5 ? -1 : 1;
+    let randomXValue = (Math.random() * 20) * plusOrMinus1;
+    let randomYValue = (Math.random() * 20);
+    let randomZValue = (Math.random() * 20) * plusOrMinus2;
+    rainMain.position.x = randomXValue;
+    rainMain.position.y = randomYValue;
+    rainMain.position.z = randomZValue;
 
-    const rain = new THREE.Points(rainGeometry, rainMaterial);
-    scene.add(rain);
-    rain_pos.push();
+    rain_pos.push(rainMain);
+    scene.add(rainMain);
+
+
 }
 
 
@@ -406,6 +415,15 @@ function objRender(time) {
 
     });
 
+    rain_pos.forEach((object, ndx) => {
+        if (object.position.y < -1) {
+            object.position.y = 12;
+        }
+        let speed = 0.05;
+        object.translateY(-speed);
+
+    });
+
     renderer.render(scene, camera);
 
     requestAnimationFrame(objRender);
@@ -426,15 +444,6 @@ function render(time) {
     controls.update();
     renderer.render(scene, camera);
 
-    for (let i = 0; i < rain_pos.length; i += 3) {
-        positions[i + 1] -= 0.1;  // y position
-
-        // Reset position if below threshold
-        if (positions[i + 1] < -250) {
-            positions[i + 1] = 250;
-        }
-
-    }
     requestAnimationFrame(render);
 
 
