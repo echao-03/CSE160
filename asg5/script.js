@@ -5,7 +5,7 @@ import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
 
 const scene = new THREE.Scene();
 // Camera settings
-const fov = 75;
+const fov = 90;
 const aspect = 2;  // the canvas default
 const near = 0.1;
 const far = 50;
@@ -14,6 +14,7 @@ const renderer = new THREE.WebGLRenderer();
 const controls = new OrbitControls(camera, renderer.domElement);
 
 camera.position.z = 2;
+camera.position.y = 5;
 controls.update();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
@@ -254,7 +255,6 @@ mtlLoader_4.load('models/street_lamp.mtl', (mtl) => {
         scene.updateMatrixWorld(true);
         var position = new THREE.Vector3();
         position.setFromMatrixPosition(root.matrixWorld);
-        console.log(root.position);
         const light = new THREE.PointLight(0xd6be87, 0.5);
         const helper = new THREE.PointLightHelper(light, 1);
         light.position.set(root.position.x - .5, root.position.y + 1.35, root.position.z);
@@ -400,6 +400,69 @@ mtlLoader_12.load('models/bush_1.mtl', (mtl) => {
 
 });
 
+const mtlLoader_13 = new MTLLoader();
+mtlLoader_13.load('models/clouds.mtl', (mtl) => {
+
+    mtl.preload();
+    const objLoader = new OBJLoader();
+    objLoader.setMaterials(mtl);
+    objLoader.load('models/clouds.obj', (root) => {
+        root.translateZ(2);
+        root.translateX(-2.5);
+        root.translateY(9);
+        root.rotateY(30);
+        root.scale.set(12, 12, 12);
+        scene.add(root);
+    });
+
+});
+
+const mtlLoader_14 = new MTLLoader();
+mtlLoader_14.load('models/street_lamp.mtl', (mtl) => {
+
+    mtl.preload();
+    const objLoader = new OBJLoader();
+    objLoader.setMaterials(mtl);
+    objLoader.load('models/street_lamp.obj', (root) => {
+        root.translateZ(-11.5);
+        root.translateY(0.65);
+        root.translateX(1.5);
+        root.rotateY(2.9);
+        scene.add(root);
+        scene.updateMatrixWorld(true);
+        var position = new THREE.Vector3();
+        position.setFromMatrixPosition(root.matrixWorld);
+        const light = new THREE.PointLight(0xd6be87, 0.5);
+        const helper = new THREE.PointLightHelper(light, 1);
+        light.position.set(root.position.x - .5, root.position.y + 1.35, root.position.z);
+        scene.add(light);
+        scene.add(helper);
+    });
+
+});
+
+const mtlLoader_15 = new MTLLoader();
+mtlLoader_15.load('models/street_lamp.mtl', (mtl) => {
+
+    mtl.preload();
+    const objLoader = new OBJLoader();
+    objLoader.setMaterials(mtl);
+    objLoader.load('models/street_lamp.obj', (root) => {
+        root.translateZ(16);
+        root.translateY(0.65);
+        root.translateX(-1.5);
+        scene.add(root);
+        scene.updateMatrixWorld(true);
+        var position = new THREE.Vector3();
+        position.setFromMatrixPosition(root.matrixWorld);
+        const light = new THREE.PointLight(0xd6be87, 0.5);
+        const helper = new THREE.PointLightHelper(light, 1);
+        light.position.set(root.position.x - .5, root.position.y + 1.35, root.position.z);
+        scene.add(light);
+        scene.add(helper);
+    });
+
+});
 
 const objects = [];
 
@@ -419,7 +482,7 @@ function objRender(time) {
         if (object.position.y < -1) {
             object.position.y = 12;
         }
-        let speed = 0.05;
+        let speed = 0.4;
         object.translateY(-speed);
 
     });
