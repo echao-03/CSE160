@@ -47,12 +47,10 @@ scene.add(mesh);
 
 
 const color = 0xFFFFFF;
-const intensity = 0.2;
-const light = new THREE.DirectionalLight(color, intensity);
-const helper = new THREE.DirectionalLightHelper(light, 5);
+const intensity = 0.01;
+const light = new THREE.AmbientLight(color, intensity);
 light.position.set(17, 14, -10);
 scene.add(light);
-scene.add(helper);
 
 
 
@@ -67,26 +65,29 @@ const bg_texture = loader.load(
         scene.background = bg_texture;
     });
 
-const materials = [
-    new THREE.MeshPhongMaterial({ map: loadColorTexture('imgs/dice_1.svg') }),
-    new THREE.MeshPhongMaterial({ map: loadColorTexture('imgs/dice_2.svg') }),
-    new THREE.MeshPhongMaterial({ map: loadColorTexture('imgs/dice_3.svg') }),
-    new THREE.MeshPhongMaterial({ map: loadColorTexture('imgs/dice_4.svg') }),
-    new THREE.MeshPhongMaterial({ map: loadColorTexture('imgs/dice_5.svg') }),
-    new THREE.MeshPhongMaterial({ map: loadColorTexture('imgs/dice_6.svg') }),
 
 
-];
+const listener = new THREE.AudioListener();
+camera.add(listener);
+
+// create a global audio source
+const sound = new THREE.Audio(listener);
+
+// load a sound and set it as the Audio object's buffer
+// const audioLoader = new THREE.AudioLoader();
+// audioLoader.load('sounds/rain.wav', function (buffer) {
+//     sound.setBuffer(buffer);
+//     sound.setLoop(true);
+//     sound.setVolume(0.5);
+//     sound.play();
+// });
 
 const cubeWidth = 1;
 const cubeHeight = 1;
 const cubeDepth = 1;
 
 
-const cubeGeometry = new THREE.BoxGeometry(cubeWidth, cubeHeight, cubeDepth);
-const dice = new THREE.Mesh(cubeGeometry, materials);
-dice.position.x = -1
-scene.add(dice);
+
 
 
 const streetMainGeometry = new THREE.BoxGeometry(3, 0.5, 40);
@@ -145,6 +146,8 @@ scene.add(woodStep4);
 const rainCount = 1000;
 const rain_pos = [];
 
+const cloud_pos = [];
+const car_pos = [];
 
 const rainMaterial = new THREE.PointsMaterial({
     color: 0x233c59,
@@ -160,9 +163,12 @@ for (let i = 0; i < rainCount; i++) {
     let randomXValue = (Math.random() * 20) * plusOrMinus1;
     let randomYValue = (Math.random() * 20);
     let randomZValue = (Math.random() * 20) * plusOrMinus2;
+
     rainMain.position.x = randomXValue;
     rainMain.position.y = randomYValue;
     rainMain.position.z = randomZValue;
+
+    rainMain.rotation.x = 25;
 
     rain_pos.push(rainMain);
     scene.add(rainMain);
@@ -170,48 +176,44 @@ for (let i = 0; i < rainCount; i++) {
 
 }
 
-
-
-
-
 function loadColorTexture(path) {
     const texture = loader.load(path);
     texture.colorSpace = THREE.SRGBColorSpace;
     return texture;
 }
 
-
-
-const cubes = [];
-
-cubes.push(dice);
-
-
-const mtlLoader = new MTLLoader();
-mtlLoader.load('models/materials.mtl', (mtl) => {
+const mtlLoader_1 = new MTLLoader();
+mtlLoader_1.load('models/NormalCar2.mtl', (mtl) => {
 
     mtl.preload();
     const objLoader = new OBJLoader();
     objLoader.setMaterials(mtl);
-    objLoader.load('models/bongo_cat.obj', (root) => {
-        root.translateZ(1);
+    objLoader.load('models/NormalCar2.obj', (root) => {
+
+        root.translateY(-0.7);
         scene.add(root);
-        objects.push(root);
-    });
+        // scene.updateMatrixWorld(true);
+        // let position = new THREE.Vector3();
+        // position.setFromMatrixPosition(root.matrixWorld);
+        // const light1 = new THREE.SpotLight(0xffffff, 1, 7, 0.32);
+        // light1.castShadow = true;
+        // light1.position.set(root.position.x + 0.5, root.position.y + 0.5, root.position.z + 1.65);
+        // scene.add(light1);
 
-});
+        // // Add a helper to visualize the spotlight
+        // // const helper1 = new THREE.SpotLightHelper(light1, 1);
+        // // scene.add(helper1);
 
-const mtlLoader_2 = new MTLLoader();
-mtlLoader_2.load('models/bottleKetchup.mtl', (mtl) => {
+        // // Create and add the target object for the spotlight
+        // const targetObject1 = new THREE.Object3D();
+        // targetObject1.position.set(3, 2, 0); // Adjust as needed
+        // scene.add(targetObject1);
+        // light1.target = targetObject1;
 
-    mtl.preload();
-    const objLoader = new OBJLoader();
-    objLoader.setMaterials(mtl);
-    objLoader.load('models/bottleKetchup.obj', (root) => {
-        root.translateZ(-1);
-        root.translateX(0.5);
-        scene.add(root);
-        objects.push(root);
+
+        // console.log(light1);
+        car_pos.push(root);
+
     });
 
 });
@@ -231,11 +233,9 @@ mtlLoader_3.load('models/street_lamp.mtl', (mtl) => {
         var position = new THREE.Vector3();
         position.setFromMatrixPosition(root.matrixWorld);
 
-        const light = new THREE.PointLight(0xd6be87, 0.5);
-        const helper = new THREE.PointLightHelper(light, 1);
+        const light = new THREE.PointLight(0xd6be87, 0.3, 100);
         light.position.set(-1, 2, -3);
         scene.add(light);
-        scene.add(helper);
     });
 
 });
@@ -255,11 +255,9 @@ mtlLoader_4.load('models/street_lamp.mtl', (mtl) => {
         scene.updateMatrixWorld(true);
         var position = new THREE.Vector3();
         position.setFromMatrixPosition(root.matrixWorld);
-        const light = new THREE.PointLight(0xd6be87, 0.5);
-        const helper = new THREE.PointLightHelper(light, 1);
+        const light = new THREE.PointLight(0xd6be87, 0.3);
         light.position.set(root.position.x - .5, root.position.y + 1.35, root.position.z);
         scene.add(light);
-        scene.add(helper);
     });
 
 });
@@ -413,6 +411,7 @@ mtlLoader_13.load('models/clouds.mtl', (mtl) => {
         root.rotateY(30);
         root.scale.set(12, 12, 12);
         scene.add(root);
+        cloud_pos.push(root)
     });
 
 });
@@ -432,11 +431,9 @@ mtlLoader_14.load('models/street_lamp.mtl', (mtl) => {
         scene.updateMatrixWorld(true);
         var position = new THREE.Vector3();
         position.setFromMatrixPosition(root.matrixWorld);
-        const light = new THREE.PointLight(0xd6be87, 0.5);
-        const helper = new THREE.PointLightHelper(light, 1);
+        const light = new THREE.PointLight(0xd6be87, 0.3);
         light.position.set(root.position.x - .5, root.position.y + 1.35, root.position.z);
         scene.add(light);
-        scene.add(helper);
     });
 
 });
@@ -455,14 +452,53 @@ mtlLoader_15.load('models/street_lamp.mtl', (mtl) => {
         scene.updateMatrixWorld(true);
         var position = new THREE.Vector3();
         position.setFromMatrixPosition(root.matrixWorld);
-        const light = new THREE.PointLight(0xd6be87, 0.5);
-        const helper = new THREE.PointLightHelper(light, 1);
+        const light = new THREE.PointLight(0xd6be87, 0.3);
         light.position.set(root.position.x - .5, root.position.y + 1.35, root.position.z);
         scene.add(light);
-        scene.add(helper);
     });
 
 });
+
+const mtlLoader_16 = new MTLLoader();
+mtlLoader_16.load('models/clouds.mtl', (mtl) => {
+
+    mtl.preload();
+    const objLoader = new OBJLoader();
+    objLoader.setMaterials(mtl);
+    objLoader.load('models/clouds.obj', (root) => {
+        root.translateZ(11);
+        root.translateX(-0.5);
+        root.translateY(9);
+        root.rotateY(30);
+        root.scale.set(12, 12, 12);
+        scene.add(root);
+        cloud_pos.push(root)
+    });
+
+});
+
+const cloud_amt = 90;
+for (let i = 0; i < cloud_amt; i++) {
+    let mtlLoader_17 = new MTLLoader();
+    mtlLoader_17.load('models/clouds.mtl', (mtl) => {
+        let plusOrMinus1 = Math.random() < 0.5 ? -1 : 1;
+        let plusOrMinus2 = Math.random() < 0.5 ? -1 : 1;
+        mtl.preload();
+        const objLoader = new OBJLoader();
+        objLoader.setMaterials(mtl);
+        objLoader.load('models/clouds.obj', (root) => {
+            root.translateZ((Math.random() * 20) * plusOrMinus1);
+            root.translateX((Math.random() * 20) * plusOrMinus2);
+            root.translateY((Math.random() * 10) + 8);
+            root.rotateY(30);
+            root.scale.set(12, 12, 12);
+            scene.add(root);
+            cloud_pos.push(root)
+        });
+
+
+    });
+}
 
 const objects = [];
 
@@ -480,11 +516,36 @@ function objRender(time) {
 
     rain_pos.forEach((object, ndx) => {
         if (object.position.y < -1) {
-            object.position.y = 12;
+            let plusOrMinus1 = Math.random() < 0.5 ? -1 : 1;
+            let plusOrMinus2 = Math.random() < 0.5 ? -1 : 1;
+            object.position.x = (Math.random() * 20) * plusOrMinus1;
+            object.position.y = 12
+            object.position.z = (Math.random() * 20) * plusOrMinus2;
         }
-        let speed = 0.4;
+        let speed = 0.3;
         object.translateY(-speed);
 
+    });
+
+    cloud_pos.forEach((object, ndx) => {
+        if (object.position.z < -20) {
+            let plusOrMinus1 = Math.random() < 0.5 ? -1 : 1;
+            object.position.x = ((Math.random() * 20) * plusOrMinus1);
+            object.position.z = 20;
+            object.position.y = ((Math.random() * 10) + 8);
+
+        }
+        let speed = 0.001;
+        object.translateX(-speed);
+
+    });
+
+    car_pos.forEach((object, ndx) => {
+        if (object.position.z > 20) {
+            object.position.z = -20
+        }
+        let speed = 0.01;
+        object.translateZ(speed);
     });
 
     renderer.render(scene, camera);
@@ -495,15 +556,6 @@ function objRender(time) {
 function render(time) {
 
     time *= 0.001; // convert time to seconds
-
-    cubes.forEach((cube, ndx) => {
-
-        const speed = 1 + ndx * .1;
-        const rot = time * speed;
-        cube.rotation.x = rot;
-        cube.rotation.y = rot;
-
-    });
     controls.update();
     renderer.render(scene, camera);
 
